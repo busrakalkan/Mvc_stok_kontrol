@@ -1,0 +1,75 @@
+﻿@using MvcStok.Models.Entity
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<tbl_Urunler>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<a href="~/Urun/UrunEkle/" class="btn btn-primary">YENİ ÜRÜN EKLE</a>
+<div><br /></div>
+
+<div class="container">
+    @foreach (var urn in Model)
+    {
+        <div class="col-md-3" style=" margin-bottom:2px;padding-left:0px;">
+            <div class="thumbnail">
+                <div class="image" align="center">
+                    <img class="img-responsive" style="width:120px;height:150px" src="~/Content/images/@urn.ResimYol" />
+                </div>
+                <div class="caption" style="border-top:3px solid #808080">
+                    <h3><a href="#">@urn.UrunAd</a></h3>
+                    <h4>@urn.Marka</h4>
+                    <h4>@urn.tbl_Kategori.KategoriAd</h4>
+                    <h4>@urn.Fiyat₺</h4>
+                    <h4>Adet:@urn.Stok</h4>
+                    <a href="~/Urun/UrunGetir/@urn.UrunID" class="btn btn-success" style="width:102px;height:34px">GÜNCELLE</a>
+                    <a href="~/Urun/Sil/@urn.UrunID" class="btn btn-danger" style="width:102px;height:34px">SİL</a>
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+@Html.PagedListPager((IPagedList)Model, sayfa => Url.Action("Index", new { sayfa }))
+
+
+
+
+
+
+@*<table class="table table-bordered">
+        <tr>
+            <th>URUN ID</th>
+            <th>URUN RESİM</th>
+            <th>URUN ADI</th>
+            <th>URUN MARKASI</th>
+            <th>URUN KATEGORİ</th>
+            <th>URUN FİYAT</th>
+            <th>KALAN STOK</th>
+            <th>SİL</th>
+            <th>GÜNCELLE</th>
+        </tr>
+        <tbody>
+            @foreach (var urn in Model)
+            {
+            <tr>
+                <th>@urn.UrunID</th>
+                <th><img src="~/Content/images/@urn.ResimYol" width="100" height="100"/></th>
+                <td>@urn.UrunAd</td>
+                <td>@urn.Marka</td>
+                <td>@urn.tbl_Kategori.KategoriAd</td>
+                <td>@urn.Fiyat</td>
+                <td>@urn.Stok</td>
+                <td><a href="~/Urun/Sil/@urn.UrunID" class="btn btn-danger">SİL</a></td>
+                <td><a href="~/Urun/UrunGetir/@urn.UrunID" class="btn btn-success">GÜNCELLE</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>*@
+
+
+

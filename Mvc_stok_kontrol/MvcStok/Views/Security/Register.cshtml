@@ -1,0 +1,58 @@
+﻿@model MvcStok.Models.Entity.tbl_admin
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+    <link href="~/Content/login-css.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="text-center" style="padding:80px 0">
+        <div class="logo">KAYDOL</div>
+        <!-- Main Form -->
+        <div class="login-form-1">
+            <form method="post" id="register-form" class="text-left">
+                <div class="login-form-main-message"></div>
+                <div class="main-login-form">
+                    <div class="login-group">
+                        <div class="form-group">
+                            <label for="reg_username" class="sr-only">Email address</label>
+                            @Html.TextBoxFor(m => m.adminUsername, new { @class = "form-control", placeholder = "kullanıcı adı" })
+                        </div>
+                        <div class="form-group">
+                            <label for="reg_password" class="sr-only">Password</label>
+                            @Html.PasswordFor(m => m.adminPassword, new { @class = "form-control", placeholder = "parola" })
+                        </div>
+                        <div class="form-group">
+                            <label for="reg_password_confirm" class="sr-only">Password Confirm</label>
+                            @Html.PasswordFor(m => m.reg_password_confirm, new { @class = "form-control", placeholder = "parola tekrar" })
+                        </div>
+                        <div>
+                            <img src="@Url.Action("CaptchaImageOlustur","Security")" />
+                        </div>
+                        <div class="editor-field">
+                            <input class="form-control" type="text" name="GuvenlikKodu" id="GuvenlikKodu" value="@ViewBag.GuvenlikKodu" placeholder="kodu giriniz" />
+                        </div>
+
+                        @if (ViewBag.Mesaj != null)
+                        {
+                            <p style="color:red">@ViewBag.Mesaj</p>
+                        }
+                    </div>
+                    <button type="submit" class="login-button"><i class="glyphicon glyphicon-menu-right"></i></button>
+                </div>
+                <div class="etc-login-form">
+                    <p>zaten üye misin? <a href="~/Security/Index">giriş yap</a></p>
+                </div>
+            </form>
+        </div>
+        <!-- end:Main Form -->
+    </div>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

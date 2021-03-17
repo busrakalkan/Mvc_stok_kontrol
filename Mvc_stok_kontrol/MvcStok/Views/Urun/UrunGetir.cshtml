@@ -1,0 +1,38 @@
+﻿@model MvcStok.Models.Entity.tbl_Urunler
+@{
+    ViewBag.Title = "UrunGetir";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("Guncelle", "Urun", FormMethod.Post,new { enctype = "multipart/form-data" }))
+{
+<div class="form-group">
+    
+    @Html.HiddenFor(m => m.UrunID)
+    <label>Resim:</label>
+    <br />
+    <img src="~/Content/images/@Model.ResimYol" width="100" height="100" />
+    <br />
+    <label>Resmi Güncelle</label>
+    <input type="file" name="uploadfile" id="uploadfile" accept="image/*" />
+    <br />
+    <label>Ürün Adı</label>
+    @Html.TextBoxFor(m => m.UrunAd, new { @class = "form-control" })
+    <br />
+    <label>Marka</label>
+    @Html.TextBoxFor(m => m.Marka, new { @class = "form-control" })
+    <br />
+    <label>Urun Kategori</label>
+    @Html.DropDownListFor(m => m.tbl_Kategori.KategoriID, (List<SelectListItem>)ViewBag.dgr, new { @class = "form-control" })
+    <br />
+    <label>Fiyat</label>
+    @Html.TextBoxFor(m => m.Fiyat, new { @class = "form-control" })
+    <br />
+    <label>Stok</label>
+    @Html.TextBoxFor(m => m.Stok, new { @class = "form-control" })
+    <br />
+
+    <button class="btn btn-warning">Ürün Güncelle</button>
+</div>
+
+}

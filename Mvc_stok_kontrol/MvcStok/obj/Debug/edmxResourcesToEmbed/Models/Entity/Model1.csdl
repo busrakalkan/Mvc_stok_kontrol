@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MvcDbStokModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_Kategori">
+    <Key>
+      <PropertyRef Name="KategoriID" />
+    </Key>
+    <Property Name="KategoriID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="KategoriAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tbl_Urunler" Relationship="Self.FK_tbl_Urunler_tbl_Kategori" FromRole="tbl_Kategori" ToRole="tbl_Urunler" />
+  </EntityType>
+  <EntityType Name="tbl_Musteriler">
+    <Key>
+      <PropertyRef Name="MusteriID" />
+    </Key>
+    <Property Name="MusteriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MusteriAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MusteriSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="tbl_Satislar" Relationship="Self.FK_tbl_Satislar_tbl_Musteriler" FromRole="tbl_Musteriler" ToRole="tbl_Satislar" />
+    <Property Name="MusteriSifre" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="tbl_Satislar">
+    <Key>
+      <PropertyRef Name="SatısID" />
+    </Key>
+    <Property Name="SatısID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Urun" Type="Int32" />
+    <Property Name="Musteri" Type="Int32" />
+    <Property Name="Adet" Type="Byte" />
+    <Property Name="Fiyat" Type="Decimal" Precision="18" Scale="2" />
+    <NavigationProperty Name="tbl_Musteriler" Relationship="Self.FK_tbl_Satislar_tbl_Musteriler" FromRole="tbl_Satislar" ToRole="tbl_Musteriler" />
+    <NavigationProperty Name="tbl_Urunler" Relationship="Self.FK_tbl_Satislar_tbl_Urunler" FromRole="tbl_Satislar" ToRole="tbl_Urunler" />
+  </EntityType>
+  <EntityType Name="tbl_Urunler">
+    <Key>
+      <PropertyRef Name="UrunID" />
+    </Key>
+    <Property Name="UrunID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UrunAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Marka" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UrunKategori" Type="Int16" />
+    <Property Name="Fiyat" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Stok" Type="Byte" />
+    <NavigationProperty Name="tbl_Kategori" Relationship="Self.FK_tbl_Urunler_tbl_Kategori" FromRole="tbl_Urunler" ToRole="tbl_Kategori" />
+    <NavigationProperty Name="tbl_Satislar" Relationship="Self.FK_tbl_Satislar_tbl_Urunler" FromRole="tbl_Urunler" ToRole="tbl_Satislar" />
+    <Property Name="ResimYol" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_tbl_Urunler_tbl_Kategori">
+    <End Role="tbl_Kategori" Type="Self.tbl_Kategori" Multiplicity="0..1" />
+    <End Role="tbl_Urunler" Type="Self.tbl_Urunler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Kategori">
+        <PropertyRef Name="KategoriID" />
+      </Principal>
+      <Dependent Role="tbl_Urunler">
+        <PropertyRef Name="UrunKategori" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Satislar_tbl_Musteriler">
+    <End Role="tbl_Musteriler" Type="Self.tbl_Musteriler" Multiplicity="0..1" />
+    <End Role="tbl_Satislar" Type="Self.tbl_Satislar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Musteriler">
+        <PropertyRef Name="MusteriID" />
+      </Principal>
+      <Dependent Role="tbl_Satislar">
+        <PropertyRef Name="Musteri" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tbl_Satislar_tbl_Urunler">
+    <End Role="tbl_Urunler" Type="Self.tbl_Urunler" Multiplicity="0..1" />
+    <End Role="tbl_Satislar" Type="Self.tbl_Satislar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Urunler">
+        <PropertyRef Name="UrunID" />
+      </Principal>
+      <Dependent Role="tbl_Satislar">
+        <PropertyRef Name="Urun" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MvcDbStokEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tbl_Kategori" EntityType="Self.tbl_Kategori" />
+    <EntitySet Name="tbl_Musteriler" EntityType="Self.tbl_Musteriler" />
+    <EntitySet Name="tbl_Satislar" EntityType="Self.tbl_Satislar" />
+    <EntitySet Name="tbl_Urunler" EntityType="Self.tbl_Urunler" />
+    <AssociationSet Name="FK_tbl_Urunler_tbl_Kategori" Association="Self.FK_tbl_Urunler_tbl_Kategori">
+      <End Role="tbl_Kategori" EntitySet="tbl_Kategori" />
+      <End Role="tbl_Urunler" EntitySet="tbl_Urunler" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Satislar_tbl_Musteriler" Association="Self.FK_tbl_Satislar_tbl_Musteriler">
+      <End Role="tbl_Musteriler" EntitySet="tbl_Musteriler" />
+      <End Role="tbl_Satislar" EntitySet="tbl_Satislar" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tbl_Satislar_tbl_Urunler" Association="Self.FK_tbl_Satislar_tbl_Urunler">
+      <End Role="tbl_Urunler" EntitySet="tbl_Urunler" />
+      <End Role="tbl_Satislar" EntitySet="tbl_Satislar" />
+    </AssociationSet>
+    <EntitySet Name="tbl_admin" EntityType="MvcDbStokModel.tbl_admin" />
+  </EntityContainer>
+  <EntityType Name="tbl_admin">
+    <Key>
+      <PropertyRef Name="adminId" />
+    </Key>
+    <Property Name="adminId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adminUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="adminPassword" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>
